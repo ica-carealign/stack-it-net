@@ -1,0 +1,43 @@
+﻿@using Version = Ica.StackIt.Core.Entities.Version
+@model Ica.StackIt.Core.Entities.Product
+<h2>Details</h2>
+
+<div>
+	<h4>Product summary</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+	</dl>
+	<dl class="dl-horizontal">
+		<dt>Versions</dt>
+		@if (Model.Versions.Any())
+		{
+			foreach (Version version in Model.Versions)
+			{
+				<dd>@version.Name</dd>
+				<h3>Roles</h3>
+				foreach (var role in version.Roles)
+				{
+					<ul>
+						<li>Name: @role.Name</li>
+						<li>Ports Summary: @string.Join(", ", role.Ports.Select(x => x.PortNumber))</li>
+					</ul>
+				}
+			}
+		}
+		else
+		{
+			<dd>None</dd>
+		}
+	</dl>
+</div>
+<p>
+	@Html.ActionLink("Edit", "Edit", new {id = Model.Id}) |
+	@Html.ActionLink("Back to List", "Index")
+</p>

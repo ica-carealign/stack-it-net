@@ -1,0 +1,56 @@
+﻿@model Ica.StackIt.Interactive.WebPortal.Models.StackPowerViewModel
+
+@using (Html.BeginForm("StopStack", "Home", FormMethod.Post, new {id = "stack-stop-" + Model.StackRecordId + "-form"}))
+{
+	@Html.AntiForgeryToken()
+	<input id="stackId" type="text" hidden="hidden" name="stackId" value="@Model.StackRecordId" />
+}
+
+@using (Html.BeginForm("StartStack", "Home", FormMethod.Post, new {id = "stack-start-" + Model.StackRecordId + "-form"}))
+{
+	@Html.AntiForgeryToken()
+	<input id="stackId" type="text" hidden="hidden" name="stackId" value="@Model.StackRecordId" />
+}
+
+@if (Model.StackPowerState == "mixed")
+{
+	<div class="btn-group" role="group">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<span class="glyphicon glyphicon-off"></span> <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu stack-power-dropdown" role="menu">
+			<li>
+				<a class="stack-power-down"
+				   href="#"
+				   data-id="@Model.StackRecordId"
+				   data-name="@Model.StackName">Power Down Stack</a>
+			</li>
+			<li>
+				<a class="stack-power-up"
+				   href="#"
+				   data-id="@Model.StackRecordId"
+				   data-name="@Model.StackName">Power Up Stack</a>
+			</li>
+		</ul>
+	</div>
+}
+else if (Model.StackPowerState == "running")
+{
+	<button type="button"
+			class="btn btn-success stack-power-down pull-left"
+			title="Click to Power Down Stack"
+			data-id="@Model.StackRecordId"
+			data-name="@Model.StackName">
+		<span class="glyphicon glyphicon-off"></span>
+	</button>
+}
+else
+{
+	<button type="button"
+			class="btn btn-danger stack-power-up pull-left"
+			title="Click to Power Up Stack"
+			data-id="@Model.StackRecordId"
+			data-name="@Model.StackName">
+		<span class="glyphicon glyphicon-off"></span>
+	</button>
+}

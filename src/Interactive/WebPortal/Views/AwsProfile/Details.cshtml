@@ -1,0 +1,82 @@
+﻿@model Ica.StackIt.Interactive.WebPortal.Models.AwsProfileViewModel
+
+@{
+	ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Aws Profile</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.AccessKeyId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.AccessKeyId)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.SecretAccessKey)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.SecretAccessKey)
+		</dd>
+		
+		<dt>
+			@Html.DisplayNameFor(model => model.DefaultVpcId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.DefaultVpcId)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.DefaultSubnetId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.DefaultSubnetId)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.HostedZone)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.HostedZone)
+		</dd>
+		
+	    <dt>
+	        @Html.DisplayNameFor(model => model.DetailedBillingS3Bucket)
+	    </dt>
+		
+	    <dd>
+	        @Html.DisplayFor(model => model.DetailedBillingS3Bucket)
+	    </dd>
+
+	    <dt>
+			@Html.DisplayNameFor(model => model.Groups)
+		</dt>
+
+		@foreach (string group in Model.Groups)
+		{
+			<dd>@group</dd>
+		}
+	</dl>
+</div>
+<p>
+	@Html.ActionLink("Edit", "Edit", new {id = Model.Id}) |
+	@Html.ActionLink("Back to List", "Index")
+</p>

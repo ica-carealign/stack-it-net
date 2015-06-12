@@ -1,0 +1,51 @@
+﻿@using Ica.StackIt.Interactive.WebPortal.Models
+@model IEnumerable<Ica.StackIt.Interactive.WebPortal.Models.AwsProfileViewModel>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<div class="page-header">
+	<a class="btn btn-primary pull-right" href="@Url.Action("Create")">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add new AWS Profile
+	</a>
+	<h1>AWS Profiles</h1>
+</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.AccessKeyId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.SecretAccessKey)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (AwsProfileViewModel item in Model)
+		{
+			<tr>
+				<td>
+					@Html.ActionLink(item.Name, "Details", new { id = item.Id }, new { title = "view details" })
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.AccessKeyId)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.SecretAccessKey)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+					@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

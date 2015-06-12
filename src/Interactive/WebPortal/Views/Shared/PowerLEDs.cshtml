@@ -1,0 +1,20 @@
+﻿@using Ica.StackIt.Interactive.WebPortal.Models
+@model Ica.StackIt.Interactive.WebPortal.Models.StackInstancesViewModel
+
+<div class="power-led-wrapper">
+	@foreach (InstanceOverviewViewModel instance in @Model.Instances)
+	{
+		if(instance.State == "running")
+		{
+			<img src="~/Content/Images/status.png" class="power-led pull-left" />
+		}
+		else if(instance.State == "stopped")
+		{
+			<img src="~/Content/Images/status_busy.png" class="power-led pull-left" />
+		}
+		else
+		{
+			<img src="~/Content/Images/status_away.png" class="power-led pull-left" />
+		}
+	}
+</div>

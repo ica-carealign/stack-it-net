@@ -1,0 +1,35 @@
+﻿.autocomplete-multi-select-lozenge {
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    background-color: #EEE;
+    border: 1px solid #333;
+    border-radius: 7px;
+    color: #333;
+    display: block;
+    float: left;
+    font: normal 11px Verdana, sans-serif;
+    margin: 0 3px 3px 0;
+    padding: 3px 8px 4px 8px;
+    position: relative;
+    top: -1px;
+}
+
+.autocomplete-multi-select-glyphicon-remove {
+    cursor: pointer;
+    padding-left: 6px;
+    position: relative;
+    top: 2px;
+}
+
+.autocomplete-multi-select-input {
+    border: none;
+}
+
+.autocomplete-multi-select-form-control {
+    height: auto;
+    max-height: 200px;
+    min-height: 34px;
+    overflow: auto;
+    padding-bottom: 0;
+    padding-top: 5px;
+}

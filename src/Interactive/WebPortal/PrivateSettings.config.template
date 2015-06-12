@@ -1,0 +1,20 @@
+﻿<!--
+  FOR DEVELOPMENT:
+  1. Outside of Visual Studio, copy this file and name the copy PrivateSettings.config
+  2. In the file properties for PrivateSettings.config,
+     a. Set "Build Action" to "None"
+     b. Set "Copy to Output Directory" to "Copy if newer"
+  3. Add the Crowd API password to /add[@key="CrowdApiPassword"]/@value
+  4. Optionally, uncomment /add[@key="CrowdUrl"] and configure it to point to another Crowd instance
+
+  FOR PRODUCTION:
+  1. Copy this file into the root of your web site, e.g. C:\inetpub\wwwroot
+  2. Set the the credentials and URL as desired.
+  3. Restart the website whenever you change the file since the changes will not be autodetected.
+-->
+
+<appSettings>
+  <!-- <add key="CrowdUrl" value="https://crowd.example.com:8443/crowd/services/SecurityServer"/> -->
+  <add key="CrowdApplicationName" value="stackit"/>
+  <add key="CrowdApiPassword" value=""/>
+</appSettings>

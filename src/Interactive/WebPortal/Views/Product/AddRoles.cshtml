@@ -1,0 +1,158 @@
+﻿@model Ica.StackIt.Interactive.WebPortal.Models.Product.RoleViewModel
+
+@{
+	ViewBag.Title = "Add Roles";
+}
+
+<h2>Add Role</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<h4>Product: @Model.ProductName</h4>
+	<h4>Version: @Model.VersionName</h4>
+	<h4>Current Roles</h4>
+	 if(!Model.CurrentRoles.Any())
+	 {
+		 <i>None</i>
+	 }
+	 else
+	 {
+		<ul>
+			@foreach (var role in Model.CurrentRoles)
+			{
+				<li>@role</li>
+			}
+		</ul>
+	 }
+
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true, "", new {@class = "text-danger"})
+		
+		@Html.HiddenFor(x => x.ProductId)
+		@Html.HiddenFor(x => x.VersionName)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Name, new {@class = "col-md-2"})
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+				@Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.BaseImages, new{@class="col-md-2"})
+			<div class="col-md-5">
+				@Html.DropDownListFor(x => x.BaseImageId, Model.BaseImages.OrderBy(x => x.Value).Select(x => new SelectListItem
+				{
+					Text = x.Value,
+					Value = x.Key.ToString()
+				}), new{@class="form-control"})
+			</div>
+		</div>
+		
+		<h3>Role Defaults</h3>
+		<div class="form-group">
+			@Html.LabelFor(model => model.SelectedInstanceType, new{@class = "col-md-2"})
+			<div class="col-md-10">
+				@Html.DropDownListFor(model => model.SelectedInstanceType, Model.InstanceTypes.Select(x => new SelectListItem
+				{
+					Text = x,
+					Value = x
+				}), new{@class="form-control"})
+			</div>
+		</div>
+		
+		<div class="form-group">
+			@Html.LabelFor(model => model.SelectedDiskType, new { @class = "col-md-2" })
+			<div class="col-md-10">
+				@Html.DropDownListFor(model => model.SelectedDiskType, Model.DiskTypes.Select(x => new SelectListItem
+				{
+					Text = x,
+					Value = x
+				}), new { @class = "form-control" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.VolumeSize, new { @class = "col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.VolumeSize, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.VolumeSize, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<h3>Port Configuration</h3>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Provides</th>
+					<th>Port Number</th>
+					<th>TCP</th>
+					<th>UDP</th>
+					<th>Inbound</th>
+					<th>Outbound</th>
+					<th>External</th>
+					<th>Clusterable</th>
+					<th>NS Record Name</th>
+					<th>NS Record TTL</th>
+					<th><span id="add-new-role" class="glyphicon glyphicon-plus-sign" title="Add new port configuration"></span></th>
+				</tr>
+			</thead>
+			<tbody id="port-table-body">
+				@for (int i = 0; i < Model.Ports.Count; i++)
+				{
+					<tr>
+						<td>@Html.EditorFor(x => x.Ports[i].Provides, new {htmlAttributes = new {@class="form-control"}})</td>
+						<td>@Html.EditorFor(x => x.Ports[i].PortNumber, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].Tcp, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].Udp, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].Inbound, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].Outbound, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].External, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].Clusterable, new { htmlAttributes = new { @class = "form-control" } })</td>
+						<td>@Html.EditorFor(x => x.Ports[i].DnsName, new{htmlAttributes = new{@class="form-control", placeholder = "None"}})</td>
+						<td>@Html.EditorFor(x => x.Ports[i].DnsTtl, new{ htmlAttributes = new {@class="form-control", value=3600}})</td>
+						<td><span id="remove-role-0" class="glyphicon glyphicon-remove" title="Remove port configuration"></span></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="form-group">
+			<div class="col-md-12">
+				<input type="submit" value="Save role and add another" class="btn btn-default" />
+				@Html.ActionLink("Back to Products", "index", new{}, new{@class="btn btn-default"})
+			</div>
+		</div>
+	</div>
+}
+
+@section scripts {
+	<script>
+		$(document).ready(function () {
+			(function () {
+				// this currentRow algorithm won't actually work when I add the ability to remove a port configuration
+				var currentRow = 1;
+
+				$("#add-new-role").click(function () {
+					$("#port-table-body tr:last").after('<tr>' +
+						'<td><input id="Ports_' + currentRow + '__Provides" class="text-box form-control single-line" type="text" value="" name="Ports[' + currentRow + '].Provides"></td>' +
+						'<td><input id="Ports_' + currentRow + '__PortNumber" class="text-box form-control single-line" type="number" value="0" name="Ports[' + currentRow + '].PortNumber"></td>' +
+						'<td><input id="Ports_' + currentRow + '__Tcp" class="check-box form-control" type="checkbox" value="true" name="Ports[' + currentRow + '].Tcp"></td>' +
+						'<td><input id="Ports_' + currentRow + '__Udp" class="form-control check-box" type="checkbox" value="true" name="Ports[' + currentRow + '].Udp"></td>' +
+						'<td><input id="Ports_' + currentRow + '__Inbound" class="form-control check-box" type="checkbox" value="true" name="Ports[' + currentRow + '].Inbound"></td>' +
+						'<td><input id="Ports_' + currentRow + '__Outbound" class="form-control check-box" type="checkbox" value="true" name="Ports[' + currentRow + '].Outbound"></td>' +
+						'<td><input id="Ports_' + currentRow + '__External" class="form-control check-box" type="checkbox" value="true" name="Ports[' + currentRow + '].External"></td>' +
+						'<td><input id="Ports_' + currentRow + '__Clusterable" class="form-control check-box" type="checkbox" value="true" name="Ports[' + currentRow + '].Clusterable"></td>' +
+						'<td><input id="Ports_' + currentRow + '__DnsName" class="form-control text-box single-line" type="text" value="" name="Ports[' + currentRow + '].DnsName" placeholder="Leave blank for none"></td>' +
+						'<td><input id="Ports_' + currentRow + '__DnsTtl" class="form-control text-box single-line" type="number" value="3600" name="Ports[' + currentRow + '].DnsTtl"></td>' +
+						'<td><span class="glyphicon glyphicon-minus-sign remove-role-' + currentRow + '" title="Remove port configuration"></span></td>' +
+						'</tr>');
+					currentRow++;
+				});
+			})();
+		});
+	</script>
+}

@@ -1,0 +1,49 @@
+﻿@using Ica.StackIt.Interactive.WebPortal.Models.Product
+@model IEnumerable<Ica.StackIt.Interactive.WebPortal.Models.Product.ProductSummaryViewModel>
+
+<div class="page-header">
+	<a href="@Url.Action("Create")" class="btn btn-primary">
+		<span class="glyphicon glyphicon-plus"></span>
+		New Product
+	</a>
+	<h1>Products</h1>
+</div>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.ProductName)
+			</th>
+			<th>Manage</th>
+			<th>@Html.DisplayNameFor(model => model.ProductVersions)</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (ProductSummaryViewModel item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.ProductName)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new {id = item.ProductId}) |
+					@Html.ActionLink("Details", "Details", new {id = item.ProductId}) |
+					@Html.ActionLink("Delete", "Delete", new {id = item.ProductId})
+				</td>
+				<td>
+					@Html.ActionLink("Add", "AddVersion", new {item.ProductId}, new {@class = "btn btn-primary btn-xs"})
+
+					@{
+						ProductSummaryViewModel summary = item;
+						List<MvcHtmlString> links = item.ProductVersions.Select(version => Html.ActionLink(version, "AddRoles", new {summary.ProductId, version})).ToList();
+						string allAnchorText = string.Join(", ", links);
+					}
+
+					@Html.Raw(allAnchorText)
+
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

@@ -1,0 +1,109 @@
+﻿@using Ica.StackIt.Interactive.WebPortal.Models
+@model Ica.StackIt.Interactive.WebPortal.Models.StackInstancesViewModel
+
+<div class="page-header">
+	<h1>Instance list for stack: @Model.StackName</h1>
+</div>
+<h2>Current Instances</h2>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Status</th>
+			<th></th> <!-- SSH / RDP buttons-->
+			<th>Name</th>
+			<th>Image</th>
+			<th>Type</th>
+			<th>Private IP</th>
+			<th>Public IP</th>
+			<th>
+				@{ Html.RenderPartial("StackPower", Model.StackPowerViewModel); }
+			</th> <!-- Power buttons -->
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (InstanceOverviewViewModel instance in @Model.Instances)
+		{
+			<tr>
+				<!-- Instance Status-->
+				@if (instance.Status == true)
+				{
+					<td><span class="glyphicon glyphicon-ok-sign text-success center-block text-center"></span></td>
+				}
+				else
+				{
+					<td><span class="glyphicon glyphicon-warning-sign center-block text-center"></span></td>
+				}
+
+				<!-- Instance Remoting -->
+				<td>
+					@if (instance.Platform == null || instance.Platform.ToLower() == "windows")
+					{
+						<a href="rdp://@instance.PrivateIp"><img src="~/Content/Images/rdp.svg" style="height: 35px" /></a>
+					}
+					@if (instance.Platform == null || instance.Platform.ToLower() == "linux")
+					{
+						<a href="ssh://@instance.PrivateIp"><img src="~/Content/Images/ssh.svg" style="height: 35px" /></a>
+					}
+				</td>
+
+				<td>
+					@if (instance.HttpAccessability != HttpAccessibility.None)
+					{
+						const string template = "http{0}://{1}/";
+						string protocolEndCharacter = instance.HttpAccessability == HttpAccessibility.Http ? "" : "s";
+						<a href="@string.Format(template, protocolEndCharacter, instance.PrivateIp)" title="Go to website">@instance.Name</a>
+					}
+					else
+					{
+						@instance.Name
+					}
+				</td>
+				<td>@instance.Image</td>
+				<td>@instance.Type</td>
+				<td>@instance.PrivateIp</td>
+				<td>@instance.PublicIp</td>
+				<td>
+					@if (instance.State == "running")
+					{
+						using (Html.BeginForm("StopInstance", "Instance", FormMethod.Post, new {id = "instance-stop-" + instance.ResourceId + "-form"}))
+						{
+							@Html.AntiForgeryToken()
+							<input id="instanceId" type="text" hidden="hidden" name="instanceId" value="@instance.ResourceId"/>
+							<input id="stackId" type="text" hidden="hidden" name="stackId" value="@Model.StackRecordId"/>
+							<button type="button"
+							        class="btn btn-success instance-power-down pull-left"
+							        title="Click to Power Down Instance"
+							        data-id="@instance.ResourceId"
+							        data-name="@instance.Name">
+								<span class="glyphicon glyphicon-off"></span>
+							</button>
+						}
+					}
+					else if (instance.State == "stopped")
+					{
+						using (Html.BeginForm("StartInstance", "Instance", FormMethod.Post, new {id = "instance-start-" + instance.ResourceId + "-form"}))
+						{
+							@Html.AntiForgeryToken()
+							<input id="instanceId" type="text" hidden="hidden" name="instanceId" value="@instance.ResourceId"/>
+							<input id="stackId" type="text" hidden="hidden" name="stackId" value="@Model.StackRecordId"/>
+							<button type="button"
+							        class="btn btn-danger instance-power-up pull-left"
+							        title="Click to Power Up Instance"
+							        data-id="@instance.ResourceId"
+							        data-name="@instance.Name">
+								<span class="glyphicon glyphicon-off"></span>
+							</button>
+						}
+					}
+					else
+					{
+						<button type="button" class="btn btn-warning disabled pull-left" title="Transitioning...">
+							<span class="glyphicon glyphicon-off"></span>
+						</button>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+	<tfoot></tfoot>
+</table>

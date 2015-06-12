@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E318BC7B-4835-445F-8CA2-9F9C26516ED3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ica.StackIt.Application.ApplicationTests</RootNamespace>
+    <AssemblyName>Ica.StackIt.Application.ApplicationTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AwsContrib.EnvelopeCrypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AwsContrib.EnvelopeCrypto.0.0.15\lib\net45\AwsContrib.EnvelopeCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK, Version=2.3.21.1, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AWSSDK.2.3.21.1\lib\net45\AWSSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\..\packages\CsvHelper.2.11.1.1\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\..\packages\FluentAssertions.3.2.2\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\..\packages\FluentAssertions.3.2.2\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Hangfire.Core.1.4.1\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AWS\CredentialsServiceTests.cs" />
+    <Compile Include="AWS\ImageServiceTests.cs" />
+    <Compile Include="AWS\NetworkServiceTests.cs" />
+    <Compile Include="AWS\S3PathPartsTests.cs" />
+    <Compile Include="AWS\SecurityGroupServiceTests.cs" />
+    <Compile Include="AWS\StackServiceTests.cs" />
+    <Compile Include="AWS\StorageServiceTests.cs" />
+    <Compile Include="Billing\BillingLoaderTests.cs" />
+    <Compile Include="Billing\LineItemCsvParserTests.cs" />
+    <Compile Include="Command\CreateIpRangeTests.cs" />
+    <Compile Include="Command\RefreshIpRangesTests.cs" />
+    <Compile Include="Command\RemoveStaleInstanceTests.cs" />
+    <Compile Include="Command\RemoveStaleStacksTests.cs" />
+    <Compile Include="Command\RefreshEverythingTests.cs" />
+    <Compile Include="AWS\InstanceServiceTests.cs" />
+    <Compile Include="Command\UpdateBillingDataTests.cs" />
+    <Compile Include="Command\UpdateInstanceTests.cs" />
+    <Compile Include="Command\UpdateStackTests.cs" />
+    <Compile Include="NumberedStringGeneratorTests.cs" />
+    <Compile Include="Parser\ArnParserTests.cs" />
+    <Compile Include="Parser\S3PathParserTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleCalculatorTests.cs" />
+    <Compile Include="StackPowerKickstarterTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Resources\line-items.csv" />
+    <None Include="Resources\line-items.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core\Core.csproj">
+      <Project>{2EC25F6D-74A7-4C9A-97A7-DEA0866C6088}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj">
+      <Project>{c471437d-7f5a-44fd-915c-fd74e69371a5}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application\Application.csproj">
+      <Project>{C621970D-9207-4122-8A41-1975A12DF938}</Project>
+      <Name>Application</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

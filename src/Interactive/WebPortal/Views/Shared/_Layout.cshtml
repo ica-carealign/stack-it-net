@@ -1,0 +1,57 @@
+﻿@using Ica.StackIt.Interactive.WebPortal.Extensions
+
+@{
+}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>@ViewBag.Title - StackIt</title>
+		@Styles.Render("~/Content/css")
+		@Styles.Render("~/Content/themes/base/css")
+		@Scripts.Render("~/bundles/modernizr")
+	</head>
+	<body class="@Html.ClassesForCurrentContext()">
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="/" class="navbar-brand">Stack It</a>
+					<div class="VersionWrapper"><div class="Version">v0.0.0</div></div>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul id="menu" class="nav navbar-nav navbar-right">
+						@if (@User.Identity.IsAuthenticated)
+						{
+							<li>
+								@{Html.RenderAction("ProfileChooser", "Session");}
+							</li>
+							<li class="@Html.IsSelected(controller: "Home")">@Html.ActionLink("Stacks", "index", "Home")</li>
+							<li class="@Html.IsSelected(controller: "Product")">@Html.ActionLink("Products", "index", "Product")</li>
+							<li class="@Html.IsSelected(controller: "AwsProfile")">@Html.ActionLink("AWS Profiles", "index", "AwsProfile")</li>
+						}
+						@Html.Partial("_LoginPartial")
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">@RenderBody()</div>
+
+		<!-- todo: make a single bundle with all this -->
+		@Scripts.Render("~/bundles/jquery")
+		@Scripts.Render("~/bundles/signalr")
+		<script src="~/signalr/hubs"></script>
+		@Scripts.Render("~/bundles/bootstrap")
+		@Scripts.Render("~/bundles/jqueryui")
+		@Scripts.Render("~/bundles/stackit")
+		@RenderSection("scripts", required: false)
+	</body>
+</html>

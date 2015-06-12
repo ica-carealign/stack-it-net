@@ -1,0 +1,29 @@
+﻿@using Ica.StackIt.Interactive.WebPortal.Extensions
+@model Ica.StackIt.Interactive.WebPortal.Models.StackEventViewModel
+
+<div class="page-header">
+	<h1>Stack events for stack: @Model.StackName</h1>
+</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Timestamp</th>
+			<th>Status</th>
+			<th>Type</th>
+			<th>Logical ID</th>
+			<th>Reason</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var stackEvent in Model.StackEvents)
+		{
+			<tr>
+				<td>@stackEvent.TimeStamp</td>
+				<td>@Html.RenderStatusIcon(stackEvent.Status, default(Guid))</td>
+				<td>@stackEvent.Type</td>
+				<td>@stackEvent.LogicalId</td>
+				<td>@stackEvent.Reason</td>
+			</tr>
+		}
+	</tbody>
+</table>

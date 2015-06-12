@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C621970D-9207-4122-8A41-1975A12DF938}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ica.StackIt.Application</RootNamespace>
+    <AssemblyName>Ica.StackIt.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AwsContrib.EnvelopeCrypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AwsContrib.EnvelopeCrypto.0.0.15\lib\net45\AwsContrib.EnvelopeCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK, Version=2.3.21.1, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AWSSDK.2.3.21.1\lib\net45\AWSSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\..\packages\CsvHelper.2.11.1.1\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Edge.js.0.10.0\lib\EdgeJs.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Hangfire.Core.1.4.1\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Hangfire.SqlServer.1.4.1\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LukeSkywalker.IPNetwork">
+      <HintPath>..\..\packages\IPNetwork.1.3.1.0\lib\LukeSkywalker.IPNetwork.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="NCrontab">
+      <HintPath>..\..\packages\ncrontab.2.0.0\lib\net20\NCrontab.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationModule.cs" />
+    <Compile Include="AwsClient.cs" />
+    <Compile Include="AwsClientFactory.cs" />
+    <Compile Include="AWS\AmbientCredentials.cs" />
+    <Compile Include="AWS\Constants.cs" />
+    <Compile Include="AWS\CredentialService.cs" />
+    <Compile Include="AWS\DnsService.cs" />
+    <Compile Include="AWS\ICredentialService.cs" />
+    <Compile Include="AWS\IdentityService.cs" />
+    <Compile Include="AWS\IDnsService.cs" />
+    <Compile Include="AWS\IIdentityService.cs" />
+    <Compile Include="AWS\IImageService.cs" />
+    <Compile Include="AWS\IInstanceService.cs" />
+    <Compile Include="AWS\ImageService.cs" />
+    <Compile Include="AWS\IMetadataService.cs" />
+    <Compile Include="AWS\INetworkService.cs" />
+    <Compile Include="AWS\InstanceService.cs" />
+    <Compile Include="AWS\ISecurityGroupService.cs" />
+    <Compile Include="AWS\IStackService.cs" />
+    <Compile Include="AWS\IStorageService.cs" />
+    <Compile Include="AWS\MetadataService.cs" />
+    <Compile Include="AWS\NetworkService.cs" />
+    <Compile Include="AWS\SecurityGroupService.cs" />
+    <Compile Include="AWS\StorageService.cs" />
+    <Compile Include="AWS\StackService.cs" />
+    <Compile Include="Billing\BillingManager.cs" />
+    <Compile Include="Billing\CostCalculator.cs" />
+    <Compile Include="Billing\IBillingManager.cs" />
+    <Compile Include="Billing\LineItem.cs" />
+    <Compile Include="Billing\LineItemCsvParser.cs" />
+    <Compile Include="BinaryEncoding.cs" />
+    <Compile Include="Command\CleanUpPuppet.cs" />
+    <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="Command\CreateDefaultSecurityGroup.cs" />
+    <Compile Include="Command\CreateIpRange.cs" />
+    <Compile Include="Command\CreateStack.cs" />
+    <Compile Include="Command\DeleteStack.cs" />
+    <Compile Include="Command\ICleanUpPuppet.cs" />
+    <Compile Include="Command\IInstancePower.cs" />
+    <Compile Include="Command\RefreshIpRanges.cs" />
+    <Compile Include="Command\ScheduledStartStack.cs" />
+    <Compile Include="Command\ScheduledStopStack.cs" />
+    <Compile Include="Command\StartInstances.cs" />
+    <Compile Include="Command\StopInstances.cs" />
+    <Compile Include="Command\UpdateAllImages.cs" />
+    <Compile Include="Command\RemoveStaleInstances.cs" />
+    <Compile Include="Command\RemoveStaleStacks.cs" />
+    <Compile Include="Command\RefreshEverything.cs" />
+    <Compile Include="Command\StackLoader.cs" />
+    <Compile Include="Command\UpdateAllInstances.cs" />
+    <Compile Include="Command\UpdateAllStacks.cs" />
+    <Compile Include="Command\UpdateBillingData.cs" />
+    <Compile Include="Command\UpdateInstance.cs" />
+    <Compile Include="Command\UpdateStack.cs" />
+    <Compile Include="Configuration\BootstrapCrowdConfiguration.cs" />
+    <Compile Include="Configuration\BootstrapDatabaseConfiguration.cs" />
+    <Compile Include="Configuration\BootstrapHangfireConfiguration.cs" />
+    <Compile Include="Configuration\CloudOptions.cs" />
+    <Compile Include="Configuration\CrowdConfiguration.cs" />
+    <Compile Include="Configuration\HangfireConfiguration.cs" />
+    <Compile Include="Configuration\ICloudOptions.cs" />
+    <Compile Include="Configuration\ICrowdConfiguration.cs" />
+    <Compile Include="Configuration\IHangfireConfiguration.cs" />
+    <Compile Include="Configuration\IInstanceTypeConfiguration.cs" />
+    <Compile Include="Configuration\InstanceTypeConfiguration.cs" />
+    <Compile Include="Configuration\IPuppetConfiguration.cs" />
+    <Compile Include="Configuration\IQueueingConfiguration.cs" />
+    <Compile Include="Configuration\IStackItConfiguration.cs" />
+    <Compile Include="Configuration\PuppetConfiguration.cs" />
+    <Compile Include="Configuration\QueueingConfiguration.cs" />
+    <Compile Include="Configuration\StackItConfiguration.cs" />
+    <Compile Include="Conventions.cs" />
+    <Compile Include="DefaultSecurityGroupCreator.cs" />
+    <Compile Include="Enums\AuthenticationProvider.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Hangfire\Constants.cs" />
+    <Compile Include="IAwsClient.cs" />
+    <Compile Include="IAwsClientFactory.cs" />
+    <Compile Include="INumberedStringGenerator.cs" />
+    <Compile Include="IScheduleCalculator.cs" />
+    <Compile Include="IStackPowerKickstarter.cs" />
+    <Compile Include="Model\StackConfiguration.cs" />
+    <Compile Include="NumberStringGenerator.cs" />
+    <Compile Include="Parser\ArnParser.cs" />
+    <Compile Include="Parser\IArnParser.cs" />
+    <Compile Include="Parser\IS3PathParser.cs" />
+    <Compile Include="Parser\S3PathParser.cs" />
+    <Compile Include="Parser\S3PathParts.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScheduleCalculator.cs" />
+    <Compile Include="StackPowerKickstarter.cs" />
+    <Compile Include="ThrottledScheduler.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SaveMechanic.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="AWS\README.md" />
+    <None Include="DefaultSecurityGroupAddresses.json" />
+    <None Include="edge\x64\edge.node">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="edge\x86\edge.node">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core\Core.csproj">
+      <Project>{2EC25F6D-74A7-4C9A-97A7-DEA0866C6088}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj">
+      <Project>{c471437d-7f5a-44fd-915c-fd74e69371a5}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AWS\CloudFormation\GenerateCloudFormationTemplate.js" />
+    <Content Include="edge\double_edge.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="edge\edge.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="edge\x64\node.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="edge\x86\node.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,19 @@
+﻿@model Ica.StackIt.Interactive.WebPortal.Models.SessionViewModel
+
+@{
+	List<SelectListItem> profileSelectList = Model.Profiles.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).ToList();
+}
+
+@using (Html.BeginForm("SetActiveProfile", "Session", FormMethod.Post, new { @id="ProfileChooser", @class="navbar-form" }))
+{
+	@Html.AntiForgeryToken()
+		
+	<div class="form-group">
+		@Html.DisplayNameFor(x => Model.SelectedProfileId)
+		@Html.DropDownListFor(model => Model.SelectedProfileId, profileSelectList, new
+		{
+			@id="ProfileChooserSelect",
+			@class = "form-control"
+		})
+	</div>
+}

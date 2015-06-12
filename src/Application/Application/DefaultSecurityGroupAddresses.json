@@ -1,0 +1,58 @@
+﻿{
+	"Ingress": [
+		{
+			"Type": "RDP",
+			"Protocol": "TCP",
+			"Port": "3389",
+			"Source": "207.65.232.226/32"
+		},
+		{
+			"Type": "RDP",
+			"Protocol": "TCP",
+			"Port": "3389",
+			"Source": "207.65.237.90/32"
+		},
+		{
+			"Type": "RDP",
+			"Protocol": "TCP",
+			"Port": "3389",
+			"Source": "207.65.232.225/32"
+		},
+		{
+			"Type": "SSH",
+			"Protocol": "TCP",
+			"Port": "22",
+			"Source": "207.65.232.226/32"
+		},
+		{
+			"Type": "SSH",
+			"Protocol": "TCP",
+			"Port": "22",
+			"Source": "207.65.237.90/32"
+		},
+		{
+			"Type": "SSH",
+			"Protocol": "TCP",
+			"Port": "22",
+			"Source": "207.65.232.225/32"
+		},
+		{
+			"Type": "All",
+			"Protocol": "-1",
+			"Port": "0",
+			"Source": "10.0.0.0/8"
+		},
+		{
+			"Type": "All",
+			"Protocol": "-1",
+			"Port":  "0",
+			"Source": "192.168.0.0/16"
+		},
+		{
+			"Type": "All",
+			"Protocol": "-1",
+			"Port": "0",
+			"Source": "172.16.0.0/12"
+		}
+	]
+}

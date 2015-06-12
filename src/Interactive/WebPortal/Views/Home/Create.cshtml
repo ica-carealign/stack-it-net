@@ -1,0 +1,390 @@
+﻿@using Ica.StackIt.Core.Constants
+@using Newtonsoft.Json
+@model Ica.StackIt.Interactive.WebPortal.Models.CreateStackViewModel
+
+@{
+	var emptySelectListItemList = new List<SelectListItem> {new SelectListItem {Text = "----", Value = "----"}};
+	
+	List<SelectListItem> productSelectList = emptySelectListItemList
+		.Concat(Model.Products.Select(x => new SelectListItem
+		{
+			Text = x.Name,
+			Value = x.Id.ToString()
+		})).ToList();
+
+	List<SelectListItem> versionSelectList = emptySelectListItemList;
+	List<SelectListItem> roleSelectList = emptySelectListItemList;
+
+	var instanceTypeSelectList = new List<SelectListItem> {new SelectListItem {Text = "Role Default", Value = "----"}};
+	instanceTypeSelectList.AddRange(Model.InstanceTypes.Select(x => new SelectListItem {Text = x, Value = x}).ToList());
+
+	var volumeTypeSelectList = new List<SelectListItem> {new SelectListItem {Text = "Role Default", Value = "----"}};
+	volumeTypeSelectList.AddRange(VolumeType.GetAll().Select(x => new SelectListItem {Text = x, Value = x}));
+
+	var scheduleSelectList = Model.Schedules.Select(x => new SelectListItem {Value = x.Id.ToString(), Text = x.Name}).ToList();
+}
+
+<h2>Create Stack</h2>
+<p>Please select an AWS profile with which to build the stack</p>
+@using (@Html.BeginForm("CreateStack", "Home"))
+{
+	@Html.HiddenFor(x => x.SelectedProfileId)
+	@Html.HiddenFor(x => x.SelectedVpcId)
+	@Html.HiddenFor(x => x.SelectedSubnetId)
+	
+	<div class="row">
+		@Html.LabelFor(x => x.SelectedVpcId, new {@class = "col-md-2"})
+		<div class="form-group col-md-5">
+			<p>@Model.SelectedVpcId</p>
+		</div>
+		<div class="col-md-5">&nbsp;</div>
+	</div>
+	<div class="row">
+		@Html.LabelFor(x => x.SelectedSubnetId, new {@class = "col-md-2"})
+		<div class="form-group col-md-5">
+			<p>@Model.SelectedSubnetId</p>
+		</div>
+		<div class="col-md-5">&nbsp;</div>
+	</div>
+	<div class="row">
+		<div>@Html.LabelFor(x => Model.StackName, new {@class = "col-md-2"})</div>
+		<div class="col-md-5">
+			@Html.EditorFor(x => Model.StackName, new {HtmlAttributes = new {@class = "form-control"}})
+		</div>
+		<div class="col-md-5">&nbsp;</div>
+	</div>
+	<br/>
+	<div class="row">
+		<div>@Html.LabelFor(x => Model.Schedules, new { @class = "col-md-2" })</div>
+		<div class="col-md-5">
+			@Html.DropDownListFor(x => x.SelectedScheduleId, scheduleSelectList, new { @class = "form-control" })
+		</div>
+		<div class="col-md-1">Enabled:</div>
+		<div class="col-md-2">@Html.CheckBoxFor(x => x.ScheduleEnabled, new { @class = "checkbox" })</div> 
+	</div>
+	<br />
+	<div class="row">
+		<div>@Html.LabelFor(x => Model.Notes, new {@class="col-md-2"})</div>
+		<div class="col-md-5">
+			@Html.TextAreaFor(x => Model.Notes, new{@class="form-control", col=80, row=6})
+		</div>
+	</div>
+	<br />
+	<div class="col-md-12">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Version</th>
+					<th>Role</th>
+					<th><!--Options button --></th>
+					<th><span id="add-product" class="glyphicon glyphicon-plus-sign"></span></th>
+				</tr>
+			</thead>
+			<tbody id="product-table-body">
+				<tr>
+					<td>@Html.DropDownListFor(x => x.SelectedProductIds[0], productSelectList, new {id = "product-select-list-0", @class = "form-control input-sm"})</td>
+					<td>@Html.DropDownListFor(x => x.SelectedVersionNames[0], versionSelectList, new { id = "version-select-list-0", @class = "form-control input-sm" })</td>
+					<td>@Html.DropDownListFor(x => x.SelectedRoleNames[0], roleSelectList, new { id = "role-select-list-0", @class = "form-control input-sm" })</td>
+					<td><button id="option-button-0" type="button" class="btn btn-default btn-sm">Options</button></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="role-required-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="">Error!</h4>
+				</div>
+				<div class="modal-body">
+					<h3>Please select a product, version, and role</h3>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="options-modals">
+		<div id="options-modal-0" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 id="modal-title-0"></h3>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="form-group">
+								@Html.LabelFor(model => model.Options[0].InstanceName, new {@class = "col-md-5"})
+								<div class="form-group col-md-7">
+									@Html.EditorFor(model => model.Options[0].InstanceName,
+										new {htmlAttributes = new {@class = "form-control", placeholder = "Leave blank for default"}})
+								</div>
+							</div>
+
+							<div class="form-group">
+								@Html.LabelFor(model => model.Options[0].InstanceType, new {@class = "col-md-5"})
+								<div class="form-group col-md-7">
+									@Html.DropDownListFor(model => model.Options[0].InstanceType,
+										instanceTypeSelectList,
+										new {@class = "col-md-5 form-control"})
+								</div>
+							</div>
+
+							<div class="form-group">
+								@Html.LabelFor(model => model.Options[0].VolumeType, new {@class = "col-md-5"})
+								<div class="form-group col-md-7">
+									@Html.DropDownListFor(model => model.Options[0].VolumeType,
+										volumeTypeSelectList,
+										new {@class = "col-md-5 form-control"})
+								</div>
+							</div>
+
+							<div class="form-group">
+								@Html.LabelFor(model => model.Options[0].VolumeSize, new {@class = "col-md-5"})
+								<div class="form-group col-md-7">
+									@Html.EditorFor(model => model.Options[0].VolumeSize, new {htmlAttributes = new {@class = "form-control"}})
+								</div>
+							</div>
+
+							<div class="form-group">
+								@Html.LabelFor(model => model.Options[0].IamRole, new { @class = "col-md-5" })
+								<div class="form-group col-md-7">
+									@Html.EditorFor(model => model.Options[0].IamRole, new { htmlAttributes = new { @class = "form-control"}})
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<input id="submit-button" type="submit" value="Submit" class="btn btn-default" />
+}
+
+@section scripts {
+	<script>
+		$(document).ready(function() {
+			(function(scope) {
+				var html = window.stackit.htmlUtils;
+				var nameGenerator = new NameGenerator();
+				var obj = {
+					// props
+					currentRow: 0,
+					products: @Html.Raw(JsonConvert.SerializeObject(Model.Products)),
+					productSelectList: @Html.Raw(JsonConvert.SerializeObject(productSelectList.Select(x => new {x.Text, x.Value}))),
+
+					// funcs
+					getSelectedProduct: function(number) {
+						return $("#product-select-list-" + number + " option:selected").text();
+					},
+
+					getSelectedProductId: function(number) {
+						return $("#product-select-list-" + number + " option:selected").val();
+					},
+
+					getSelectedVersion: function(number) {
+						return $("#version-select-list-" + number + " option:selected").text();
+					},
+
+					getSelectedRole: function(number) {
+						return $("#role-select-list-" + number + " option:selected").text();
+					},
+
+					getDefaultsFor: function(productId, versionName, roleName) {
+						var self = this;
+						var options = {};
+						self.products.forEach(function(product) {
+							if (product.Id === productId) {
+								product.Versions.forEach(function(version) {
+									if (version.Name === versionName) {
+										version.Roles.forEach(function(role) {
+											if (role.Name === roleName) {
+												options = role.Options;
+												options.IamRole = version.IamRole;
+											}
+										});
+									}
+								});
+							}
+						});
+
+						return options;
+					},
+
+					generateProductSelectList: function(number) {
+						var self = this;
+						var selectListStr = '<select type="select" name="SelectedProductIds[' + number + ']" id="product-select-list-' + number + '" class="form-control input-sm"">';
+						self.productSelectList.forEach(function(item) {
+							selectListStr += '<option value="' + item.Value + '">' + html.escape(item.Text) + '</option>';
+						});
+						selectListStr += '</select>';
+						return selectListStr;
+					},
+
+					generateVersionSelectList: function(number) {
+						var selectListStr = '<select type="select" name="SelectedVersionNames[' + number + ']" id="version-select-list-' + number + '" class="form-control input-sm"">';
+						selectListStr += '<option value="----">----</option>';
+						return selectListStr;
+					},
+
+					generateRoleSelectList: function(number) {
+						var selectListStr = '<select type="select" name="SelectedRoleNames[' + number + ']" id="role-select-list-' + number + '" class="form-control input-sm">';
+						selectListStr += '<option value="----">----</option>';
+						return selectListStr;
+					},
+
+					generateOptionsButton: function(number) {
+						var buttonStr = '<button type="button" class="btn btn-default btn-sm" id="option-button-' + number + '">Options</button>';
+						return buttonStr;
+					},
+
+					generateModal: function(number) {
+						// Clone the modal template, adjust the row number it correspondes to, and add it to the form
+						var newHtml = $("#options-modal-0")[0].outerHTML;
+						console.log(newHtml);
+						newHtml = newHtml
+							.replace(/Options_0/g, "Options_" + number)
+							.replace(/Options\[0\]/g, "Options[" + number + "]")
+							.replace(/options-modal-0/g, "options-modal-" + number)
+							.replace(/modal-title-0/g, "modal-title-" + number);
+						$("#options-modals").append(newHtml);
+					},
+
+					bindChangeEventForProductSelectList: function(number) {
+						var self = this;
+						var selector = "#product-select-list-" + number;
+						$(selector).change(function() {
+							var selectedProduct = self.getSelectedProduct(number);
+							var versionSelectList = $("#version-select-list-" + number);
+							self.resetDropDown(versionSelectList);
+							self.resetDropDown($("#role-select-list-" + number));
+							self.products.forEach(function(product) {
+								if (product.Name === selectedProduct) {
+									product.Versions.forEach(function(version) {
+										var versionName = html.escape(version.Name);
+										versionSelectList.append('<option value="' + versionName + '">' + versionName + '</option>');
+									});
+								}
+							});
+						});
+					},
+
+					bindChangeEventForVersionSelectList: function(number) {
+						var self = this;
+						var selector = "#version-select-list-" + number;
+						$(selector).change(function() {
+							var selectedProduct = self.getSelectedProduct(number);
+							var selectedVersion = self.getSelectedVersion(number);
+							var roleSelectList = $("#role-select-list-" + number);
+							self.resetDropDown(roleSelectList);
+							/* TODO: This is n^3. Fix me. */
+							self.products.forEach(function(product) {
+								if (product.Name === selectedProduct) {
+									product.Versions.forEach(function(version) {
+										if (version.Name === selectedVersion) {
+											version.Roles.forEach(function(role) {
+												var roleName = html.escape(role.Name);
+												roleSelectList.append('<option value="' + roleName + '">' + roleName + '</option>');
+											});
+										}
+									});
+								}
+							});
+						});
+					},
+
+					bindOptionClickEvent: function(number) {
+						var self = this;
+						var selector = "#option-button-" + number;
+						$(selector).click(function() {
+							var modalSelector = "#options-modal-" + number;
+							var titleSelector = "#modal-title-" + number;
+
+							var product = self.getSelectedProduct(number);
+							var productId = self.getSelectedProductId(number);
+							var version = self.getSelectedVersion(number);
+							var role = self.getSelectedRole(number);
+
+							if (role == "----") {
+								console.log("Role isn't here");
+								var roleRequiredSelector = "#role-required-modal";
+								console.log($(roleRequiredSelector).length);
+								$(roleRequiredSelector).modal();
+								return;
+							}
+
+							var title = [
+								product,
+								version,
+								role
+							].join(" ") + " Options";
+
+							$(titleSelector).text(title);
+
+							var roleDefaults = self.getDefaultsFor(productId, version, role);
+							$("#Options_" + number + "__InstanceType").val(roleDefaults.InstanceType);
+							$("#Options_" + number + "__VolumeType").val(roleDefaults.VolumeType);
+							$("#Options_" + number + "__VolumeSize").val(roleDefaults.VolumeSize);
+							$("#Options_" + number + "__IamRole").val(roleDefaults.IamRole);
+
+							$(modalSelector).modal();
+						});
+					},
+
+					bindAndIncrement: function() {
+						var self = this;
+						var row = self.currentRow;
+						self.bindChangeEventForProductSelectList(row);
+						self.bindChangeEventForVersionSelectList(row);
+						self.bindOptionClickEvent(row);
+						self.currentRow++;
+					},
+
+					resetDropDown: function(selector) {
+						$(selector).find("option").remove();
+						$(selector).append('"<option value="----">----</option>');
+					},
+
+					init: function() {
+						var self = this;
+						$("#StackName").val(nameGenerator.Generate());
+
+						$("#add-product").click(function() {
+							var currentRow = self.currentRow;
+
+							// Add the select lists
+							$("#product-table-body tr:last").after('<tr>' +
+								'<td>' + self.generateProductSelectList(currentRow) + '</td>' +
+								'<td>' + self.generateVersionSelectList(currentRow) + '</td>' +
+								'<td>' + self.generateRoleSelectList(currentRow) + '</td>' +
+								'<td>' + self.generateOptionsButton(currentRow) + '</td>' +
+								'<td></td>' +
+								'<tr/>');
+
+							self.generateModal(currentRow);
+
+							self.bindAndIncrement();
+						});
+
+						self.bindAndIncrement();
+					}
+				};
+
+				scope.stackit.productBinder = obj;
+
+			})(window);
+
+			window.stackit.productBinder.init();
+		});
+	</script>
+}

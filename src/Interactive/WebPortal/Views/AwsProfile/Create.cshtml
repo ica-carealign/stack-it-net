@@ -1,0 +1,131 @@
+﻿@model Ica.StackIt.Interactive.WebPortal.Models.AwsProfileViewModel
+
+@{
+	ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "AwsProfile", FormMethod.Post, new {id = "awsprofile-create-form"}))
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>AWS Profile</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new {@class = "text-danger"})
+		<div class="form-group">
+			@Html.LabelFor(model => model.Name, new {@class = "control-label col-md-2"})
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+				@Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Account, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.AccessKeyId, new {@class = "control-label col-md-2"})
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.AccessKeyId, new {htmlAttributes = new {@class = "form-control"}})
+				@Html.ValidationMessageFor(model => model.AccessKeyId, "", new {@class = "text-danger"})
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.SecretAccessKey, new {@class = "control-label col-md-2"})
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.SecretAccessKey, new {htmlAttributes = new {@class = "form-control", autocomplete = "off"}})
+				@Html.ValidationMessageFor(model => model.SecretAccessKey, "", new {@class = "text-danger"})
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.DefaultVpcId, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.DefaultVpcId, new { htmlAttributes = new { @class = "form-control" }})
+				@Html.ValidationMessageFor(model => model.DefaultVpcId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.DefaultSubnetId, new {@class = "control-label col-md-2"})
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.DefaultSubnetId, new {htmlAttributes = new {@class = "form-control"}})
+				@Html.ValidationMessageFor(model => model.DefaultSubnetId, "", new {@class = "text-danger"})
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.HostedZone, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.HostedZone, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.HostedZone, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.DetailedBillingS3Bucket, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.DetailedBillingS3Bucket, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.DetailedBillingS3Bucket, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-2 control-label">
+				@Html.LabelFor(model => model.Groups)
+			</div>
+			<div class="col-md-10">
+				<div id="awsprofile-create-groups-wrapper"></div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input id="awsprofile-create-submit" type="button" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts {
+	<style>
+		.ui-autocomplete {
+			height: 100px;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		.ui-menu .ui-menu-item {
+			padding: 0 10px 0 0;
+			white-space: nowrap;
+		}
+	</style>
+	<script>
+		$(document).ready(function() {
+			var groups = @Html.Raw(Json.Encode(Model.ServerGroups));
+
+			var groupsCtrl = new AutoCompleteMultiSelect();
+
+			groupsCtrl.AttachmentId("#awsprofile-create-groups-wrapper");
+			groupsCtrl.List(groups);
+			groupsCtrl.Setup();
+
+			$("#awsprofile-create-submit").click(function(event) {
+				groupsCtrl.ListToHiddenFields();
+				$("#awsprofile-create-form").submit();
+			});
+		});
+	</script>
+}
